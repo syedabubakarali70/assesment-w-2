@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import "h8k-components";
 
 import { image1, image2, image3, image4 } from "./assets/images";
@@ -29,18 +29,28 @@ function App() {
   const [catalogs] = useState([...catalogsList]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideTimer, setSlideTimer] = useState(null);
-  const [slideDuration] = useState(3000);
+  const [slideDuration] = useState(2000);
+  const [isChecked, setIsChecked] = useState(false);
 
-  const moveForward = () => {
+  const moveForward = useCallback(() => {
+    console.log("moveForward");
     if (activeIndex === 3) {
       setActiveIndex(0);
     } else setActiveIndex(activeIndex => activeIndex + 1);
-  };
+  }, [activeIndex]);
   const moveBackward = () => {
     if (activeIndex === 0) {
       setActiveIndex(3);
     } else setActiveIndex(activeIndex => activeIndex - 1);
   };
+
+  useEffect(() => {
+    let intervalId;
+    if (isChecked) intervalId = setInterval(moveForward, slideDuration);
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [isChecked, moveForward, slideDuration]);
 
   return (
     <Fragment>
@@ -73,7 +83,12 @@ function App() {
           </div>
         </div>
         <div className="layout-row justify-content-center mt-25">
-          <input type="checkbox" data-testid="toggle-slide-show-button" />
+          <input
+            type="checkbox"
+            data-testid="toggle-slide-show-button"
+            value={isChecked}
+            onChange={e => setIsChecked(checked => !checked)}
+          />
           <label className="ml-6">Start Slide Show</label>
         </div>
       </div>
