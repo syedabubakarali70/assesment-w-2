@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-function Thumbs({ items, currentIndex }) {
+function Thumbs({ items, currentIndex, setCurrentIndex }) {
   return (
     <Fragment>
       {items.map((catalog, idx) => (
@@ -15,6 +15,7 @@ function Thumbs({ items, currentIndex }) {
               className="mx-5 thumb"
               id={idx}
               style={{ backgroundImage: "url(" + catalog.thumb + ")" }}
+              onClick={() => setCurrentIndex(idx)}
             />
           </span>
         </span>

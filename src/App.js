@@ -57,7 +57,11 @@ function App() {
               >
                 <i className="material-icons">arrow_back</i>
               </button>
-              <Thumbs items={catalogs} currentIndex={activeIndex} />
+              <Thumbs
+                items={catalogs}
+                currentIndex={activeIndex}
+                setCurrentIndex={setActiveIndex}
+              />
               <button
                 className="icon-only outlined"
                 data-testid="next-slide-btn"
