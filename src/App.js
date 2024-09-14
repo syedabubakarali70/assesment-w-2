@@ -33,20 +33,30 @@ function App() {
   const [isChecked, setIsChecked] = useState(false);
 
   const moveForward = useCallback(() => {
-    console.log("moveForward");
-    if (activeIndex === 3) {
-      setActiveIndex(0);
-    } else setActiveIndex(activeIndex => activeIndex + 1);
-  }, [activeIndex]);
+    setActiveIndex(activeIndex => {
+      if (activeIndex === catalogsList.length - 1) {
+        return 0;
+      } else {
+        return activeIndex + 1;
+      }
+    });
+  }, [catalogsList.length]);
   const moveBackward = () => {
-    if (activeIndex === 0) {
-      setActiveIndex(3);
-    } else setActiveIndex(activeIndex => activeIndex - 1);
+    setActiveIndex(activeIndex => {
+      if (activeIndex === 0) {
+        return catalogsList.length - 1;
+      } else {
+        return activeIndex - 1;
+      }
+    });
   };
 
   useEffect(() => {
     let intervalId;
-    if (isChecked) intervalId = setInterval(moveForward, slideDuration);
+    if (isChecked) {
+      intervalId = setInterval(moveForward, slideDuration);
+    }
+
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
